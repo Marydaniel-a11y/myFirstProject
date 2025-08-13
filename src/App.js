@@ -497,10 +497,163 @@ function PacManGame() {
   );
 }
 
+// Memory Card Game Component - A fun card matching game!
+function MemoryCardGame() {
+  // Game constants
+  const CARD_PAIRS = 8; // Number of pairs to match (8 pairs = 16 cards total)
+  
+  // Create card data - we'll use emojis as card faces
+  const cardEmojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+  
+  // Create the deck: each emoji appears twice (for pairs)
+  const createDeck = () => {
+    const deck = [];
+    cardEmojis.forEach((emoji, index) => {
+      // Add two cards for each emoji (that's how we make pairs!)
+      deck.push({ id: index * 2, emoji, isFlipped: false, isMatched: false });
+      deck.push({ id: index * 2 + 1, emoji, isFlipped: false, isMatched: false });
+    });
+    // Shuffle the deck so cards are in random order
+    return deck.sort(() => Math.random() - 0.5);
+  };
+
+  // Game state - tracks everything happening in our card game
+  const [cards, setCards] = useState(createDeck()); // All the cards
+  const [flippedCards, setFlippedCards] = useState([]); // Currently flipped cards
+  const [score, setScore] = useState(0); // Number of pairs found
+  const [moves, setMoves] = useState(0); // Number of moves made
+  const [gameWon, setGameWon] = useState(false); // Is the game completed?
+
+  // Handle clicking on a card
+  const handleCardClick = (cardId) => {
+    // Don't do anything if:
+    // - Game is won
+    // - Card is already flipped
+    // - Card is already matched
+    // - Two cards are already flipped (wait for them to flip back)
+    const card = cards.find(c => c.id === cardId);
+    if (gameWon || card.isFlipped || card.isMatched || flippedCards.length === 2) {
+      return;
+    }
+
+    // Flip the card
+    setCards(prevCards => 
+      prevCards.map(c => 
+        c.id === cardId ? { ...c, isFlipped: true } : c
+      )
+    );
+
+    // Add this card to our flipped cards list
+    const newFlippedCards = [...flippedCards, cardId];
+    setFlippedCards(newFlippedCards);
+
+    // If this is the second card flipped, check for a match
+    if (newFlippedCards.length === 2) {
+      setMoves(prevMoves => prevMoves + 1); // Count this as a move
+      
+      const firstCard = cards.find(c => c.id === newFlippedCards[0]);
+      const secondCard = cards.find(c => c.id === newFlippedCards[1]);
+
+      // Check if the two cards match (same emoji)
+      if (firstCard.emoji === secondCard.emoji) {
+        // It's a match! Mark both cards as matched
+        setTimeout(() => {
+          setCards(prevCards => 
+            prevCards.map(c => 
+              newFlippedCards.includes(c.id) ? { ...c, isMatched: true } : c
+            )
+          );
+          setScore(prevScore => prevScore + 1);
+          setFlippedCards([]); // Clear flipped cards
+          
+          // Check if all pairs are found (game won!)
+          if (score + 1 === CARD_PAIRS) {
+            setGameWon(true);
+          }
+        }, 500); // Wait half a second to show the match
+      } else {
+        // No match - flip cards back after a short delay
+        setTimeout(() => {
+          setCards(prevCards => 
+            prevCards.map(c => 
+              newFlippedCards.includes(c.id) ? { ...c, isFlipped: false } : c
+            )
+          );
+          setFlippedCards([]);
+        }, 1000); // Wait 1 second to let player see both cards
+      }
+    }
+  };
+
+  // Reset the game
+  const resetGame = () => {
+    setCards(createDeck());
+    setFlippedCards([]);
+    setScore(0);
+    setMoves(0);
+    setGameWon(false);
+  };
+
+  return (
+    <div className="game-container">
+      <div className="card-game-area">
+        {/* Game Header with Score and Controls */}
+        <div className="game-header">
+          <h1 className="title">🃏 Memory Card Game</h1>
+          <div className="game-stats">
+            <div className="stat">Pairs Found: {score}/{CARD_PAIRS}</div>
+            <div className="stat">Moves: {moves}</div>
+            <button className="reset-button" onClick={resetGame}>
+              🔄 New Game
+            </button>
+          </div>
+        </div>
+
+        {/* Win Message */}
+        {gameWon && (
+          <div className="win-message">
+            <h2>🎉 Congratulations! 🎉</h2>
+            <p>You found all pairs in {moves} moves!</p>
+            <button className="play-again-button" onClick={resetGame}>
+              🎮 Play Again
+            </button>
+          </div>
+        )}
+
+        {/* Card Grid */}
+        <div className="card-grid">
+          {cards.map(card => (
+            <div
+              key={card.id}
+              className={`card ${card.isFlipped || card.isMatched ? 'flipped' : ''} ${card.isMatched ? 'matched' : ''}`}
+              onClick={() => handleCardClick(card.id)}
+            >
+              <div className="card-front">
+                {/* This is the back of the card (what you see when it's face down) */}
+                <span className="card-back-symbol">🎮</span>
+              </div>
+              <div className="card-back">
+                {/* This is the front of the card (the emoji you're trying to match) */}
+                <span className="card-emoji">{card.emoji}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Game Instructions */}
+        <div className="game-instructions">
+          <p>Click cards to flip them and find matching pairs!</p>
+          <p>Find all {CARD_PAIRS} pairs to win the game.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Main App component with tab navigation
 function App() {
   // State to track which tab is currently active
-  // 'balls' = bouncing balls game, 'pacman' = pac-man game
+  // 'balls' = bouncing balls game, 'pacman' = pac-man game, 'cards' = memory card game
   const [activeTab, setActiveTab] = useState('balls');
 
   return (
@@ -519,12 +672,19 @@ function App() {
         >
           🟡 Pac-Man
         </button>
+        <button
+          className={`tab-button ${activeTab === 'cards' ? 'active' : ''}`}
+          onClick={() => setActiveTab('cards')}
+        >
+          🃏 Memory Cards
+        </button>
       </div>
 
       {/* Game Content - shows different game based on active tab */}
       <div className="tab-content">
         {activeTab === 'balls' && <BouncingBallsGame />}
         {activeTab === 'pacman' && <PacManGame />}
+        {activeTab === 'cards' && <MemoryCardGame />}
       </div>
     </div>
   );
