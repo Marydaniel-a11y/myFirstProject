@@ -1,0 +1,292 @@
+/* Simple, clean styling for floating balls */
+
+/* Reset and basic setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); /* Elegant dark grayscale gradient */
+  overflow: hidden; /* This prevents scrollbars while balls are moving */
+}
+
+/* Main app container - fills the whole screen with tab system */
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column; /* Stack tabs on top, content below */
+}
+
+/* Individual game container - used by both games */
+.game-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tab Navigation Styling */
+.tab-navigation {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3); /* Dark background for tabs */
+  padding: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.tab-button {
+  flex: 1; /* Each tab takes equal space */
+  padding: 15px 20px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7); /* Light gray when inactive */
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transitions */
+  border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.1); /* Light background on hover */
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tab-button.active {
+  color: #ffffff; /* Bright white when active */
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 3px solid #ffffff; /* White underline for active tab */
+}
+
+/* Tab Content Area */
+.tab-content {
+  flex: 1; /* Takes up remaining space below tabs */
+  width: 100%;
+  height: calc(100vh - 60px); /* Full height minus tab height */
+  overflow: hidden;
+}
+
+/* The big box that contains our floating balls */
+.ball-container {
+  position: relative; /* This lets our balls move around inside it */
+  width: 80%; /* Takes up 80% of screen width */
+  height: 80%; /* Takes up 80% of screen height */
+  background: rgba(255, 255, 255, 0.05); /* Very subtle light background for contrast */
+  border: 3px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+  border-radius: 0px; /* Sharp, modern corners - no rounding */
+  backdrop-filter: blur(10px); /* Makes background blurry behind the box */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); /* Slightly stronger shadow for definition */
+  overflow: hidden; /* Keeps balls inside the box */
+}
+
+/* Title styling */
+.title {
+  position: absolute; /* Positioned relative to the ball-container */
+  top: 20px; /* 20px from the top */
+  left: 50%; /* Start at the middle */
+  transform: translateX(-50%); /* Center it perfectly */
+  color: #f0f0f0; /* Light gray text for contrast against dark background */
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Stronger shadow for grayscale */
+  z-index: 10; /* Makes sure title appears above the balls */
+}
+
+/* Basic ball styling - applies to all balls */
+.ball {
+  position: absolute; /* This lets us position each ball anywhere */
+  width: 60px; /* Ball width */
+  height: 60px; /* Ball height (same as width = perfect circle) */
+  border-radius: 50%; /* Makes it perfectly round */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Drop shadow for depth */
+}
+
+/* Ball styling - now controlled by JavaScript instead of CSS animations */
+/* We removed all the individual ball classes and animations since JavaScript handles movement now */
+
+/* Pac-Man Game Styling */
+.pacman-game-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.score-display {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 10px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-instructions {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.maze {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+/* Maze Cell Styling */
+.maze-cell.wall {
+  background: linear-gradient(135deg, #4a4a4a, #2c2c2c);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.maze-cell.path {
+  background: transparent;
+}
+
+.maze-cell.dot {
+  background: transparent;
+  position: relative;
+}
+
+.maze-cell.dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: #ffff00;
+  border-radius: 50%;
+  box-shadow: 0 0 4px #ffff00;
+}
+
+/* Pac-Man Character Styling */
+.pacman {
+  background: linear-gradient(135deg, #ffff00, #ffd700);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px rgba(255, 255, 0, 0.6),
+    inset -3px -3px 0 rgba(255, 200, 0, 0.8);
+  z-index: 10;
+  position: relative;
+}
+
+.pacman::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 30%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 6px;
+  border-color: transparent transparent transparent #000;
+}
+
+/* Responsive design - makes it work on smaller screens */
+@media (max-width: 768px) {
+  .ball-container {
+    width: 95%; /* Use more of the screen on mobile */
+    height: 70%; /* Adjust height for mobile */
+  }
+  
+  .title {
+    font-size: 1.5rem; /* Smaller title on mobile */
+  }
+  
+  .ball {
+    width: 40px; /* Smaller balls on mobile */
+    height: 40px;
+  }
+  
+  .pacman-game-area {
+    padding: 10px;
+  }
+  
+  .maze {
+    transform: scale(0.8);
+  }
+}
+
+/* 🎮 DRAMATIC GAME OVER ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 80px rgba(255, 0, 0, 0.8);
+  }
+  100% {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+/* 💀 Game Over Screen Enhanced Styling */
+.game-over {
+  font-family: 'Arial Black', Arial, sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.game-over h1 {
+  animation: shake 1s ease-in-out infinite;
+}
+
+/* 🎯 Score display with glow effect */
+.game-over p[style*="Final Score"] {
+  animation: pulse 3s infinite;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* 🔄 Play Again button enhanced hover effects */
+.game-over button {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-over button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.game-over button:hover::before {
+  left: 100%;
+}
