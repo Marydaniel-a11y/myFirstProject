@@ -523,6 +523,7 @@ function MemoryCardGame() {
   const [score, setScore] = useState(0); // Number of pairs found
   const [moves, setMoves] = useState(0); // Number of moves made
   const [gameWon, setGameWon] = useState(false); // Is the game completed?
+  const [isDarkMode, setIsDarkMode] = useState(true); // Theme state - true for dark, false for light
 
   // Handle clicking on a card
   const handleCardClick = (cardId) => {
@@ -585,24 +586,33 @@ function MemoryCardGame() {
     }
   };
 
-  // Reset the game
+  // Toggle between dark and light theme
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
+
+  // Reset the game (but keep the current theme)
   const resetGame = () => {
     setCards(createDeck());
     setFlippedCards([]);
     setScore(0);
     setMoves(0);
     setGameWon(false);
+    // Note: We don't reset isDarkMode - theme persists across games
   };
 
   return (
     <div className="game-container">
-      <div className="card-game-area">
+      <div className={`card-game-area ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
         {/* Game Header with Score and Controls */}
         <div className="game-header">
           <h1 className="title">🃏 Memory Card Game</h1>
           <div className="game-stats">
             <div className="stat">Pairs Found: {score}/{CARD_PAIRS}</div>
             <div className="stat">Moves: {moves}</div>
+            <button className="theme-toggle-button" onClick={toggleTheme} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
             <button className="reset-button" onClick={resetGame}>
               🔄 New Game
             </button>
@@ -625,12 +635,12 @@ function MemoryCardGame() {
           {cards.map(card => (
             <div
               key={card.id}
-              className={`card ${card.isFlipped || card.isMatched ? 'flipped' : ''} ${card.isMatched ? 'matched' : ''}`}
+              className={`card ${card.isFlipped || card.isMatched ? 'flipped' : ''} ${card.isMatched ? 'matched' : ''} ${isDarkMode ? 'dark-card' : 'light-card'}`}
               onClick={() => handleCardClick(card.id)}
             >
               <div className="card-front">
                 {/* This is the back of the card (what you see when it's face down) */}
-                <span className="card-back-symbol">🎮</span>
+                <span className="card-back-symbol">{isDarkMode ? '🎮' : '🎯'}</span>
               </div>
               <div className="card-back">
                 {/* This is the front of the card (the emoji you're trying to match) */}
