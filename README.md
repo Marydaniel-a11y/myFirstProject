@@ -94,3 +94,9 @@ Once your app is running, try:
 ---
 
 **Happy coding!** 🎉 You've just created your first React application!
+
+## 📚 About This Project
+
+This project was created as a learning exercise in React development. It includes modern React patterns, responsive design, and interactive features perfect for beginners getting started with web development.
+
+**Repository**: [https://github.com/Marydaniel-a11y/myFirstProject](https://github.com/Marydaniel-a11y/myFirstProject)
