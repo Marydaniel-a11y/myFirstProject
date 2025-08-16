@@ -197,11 +197,10 @@ function PacManGame() {
   
   // 👻 CREATURES STATE - Track our 3 enemy creatures
   // Each creature has x, y position and a color
-  // NOW SPAWNING IN SAFE CORNER POSITIONS FAR FROM PAC-MAN!
   const [creatures, setCreatures] = useState([
-    { id: 1, x: 1, y: 1, color: 'red' },     // Top-left corner - safe distance from Pac-Man
-    { id: 2, x: 17, y: 1, color: 'blue' },   // Top-right corner - safe distance from Pac-Man
-    { id: 3, x: 1, y: 11, color: 'green' }   // Bottom-left corner - safe distance from Pac-Man
+    { id: 1, x: 9, y: 5, color: 'red' },   // Spawn in newly opened center column (upper)
+    { id: 2, x: 9, y: 6, color: 'blue' },  // Spawn in newly opened center column (middle)
+    { id: 3, x: 9, y: 7, color: 'green' }  // Spawn in newly opened center column (lower)
   ]);
   
   // 🤖 CREATURE AI - Make creatures move toward Pac-Man automatically
@@ -389,9 +388,9 @@ function PacManGame() {
                   setScore(0);
                   setGameMap(maze);
                   setCreatures([
-                    { id: 1, x: 1, y: 1, color: 'red' },     // Top-left corner - safe distance from Pac-Man
-                    { id: 2, x: 17, y: 1, color: 'blue' },   // Top-right corner - safe distance from Pac-Man
-                    { id: 3, x: 1, y: 11, color: 'green' }   // Bottom-left corner - safe distance from Pac-Man
+                    { id: 1, x: 9, y: 5, color: 'red' },
+                    { id: 2, x: 9, y: 6, color: 'blue' },
+                    { id: 3, x: 9, y: 7, color: 'green' }
                   ]);
                 }}
                 style={{
