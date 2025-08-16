@@ -1,0 +1,9 @@
+# Query: 🌸
+# ContextLines: 1
+
+1 result - 1 file
+
+src/App.js:
+  14      { id: 1, x: 100, y: 100, vx: 6.5, vy: 5.2, size: 50, emoji: '💍', name: 'wedding-ring' }, // Wedding ring, very fast
+  15:     { id: 2, x: 200, y: 150, vx: -7.8, vy: 6.1, size: 70, emoji: '👰‍♀️', name: 'cherry-blossoms' }, // Cherry blossoms, super fast
+  16      { id: 3, x: 300, y: 200, vx: 5.4, vy: -7.2, size: 35, emoji: '🎂', name: 'wedding-cake' }, // Wedding cake, lightning fast

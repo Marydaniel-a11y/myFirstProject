@@ -88,11 +88,11 @@ function BouncingBallsGame() {
               ball2.vx = newVx2;
               ball2.vy = newVy2;
               
-              // Gentle energy dampening for smooth, realistic movement
-              ball1.vx *= 0.95; // Only lose 5% energy instead of 10%
-              ball1.vy *= 0.95;
-              ball2.vx *= 0.95;
-              ball2.vy *= 0.95;
+              // Minimal energy dampening for infinite movement - balls keep almost all energy!
+              ball1.vx *= 0.99; // Only lose 1% energy to keep balls moving forever
+              ball1.vy *= 0.99;
+              ball2.vx *= 0.99;
+              ball2.vy *= 0.99;
             }
           }
         }
@@ -106,19 +106,28 @@ function BouncingBallsGame() {
           
           // Check collision with left and right walls - using individual ball size
           if (newX <= 0 || newX >= containerWidth - ball.size) {
-            newVx = -newVx * 0.85; // Less energy loss for more dynamic bouncing
+            newVx = -newVx * 0.98; // Nearly perfect bouncing - keep almost all energy for infinite movement!
             newX = newX <= 0 ? 0 : containerWidth - ball.size; // Keep ball inside bounds
           }
           
           // Check collision with top and bottom walls - using individual ball size
           if (newY <= 0 || newY >= containerHeight - ball.size) {
-            newVy = -newVy * 0.85; // Less energy loss for more dynamic bouncing
+            newVy = -newVy * 0.98; // Nearly perfect bouncing - keep almost all energy for infinite movement!
             newY = newY <= 0 ? 0 : containerHeight - ball.size; // Keep ball inside bounds
           }
           
-          // Add gentle air resistance for smoother, more natural movement
-          newVx *= 0.999; // Very slight air resistance (0.1% energy loss per frame)
-          newVy *= 0.999;
+          // Removed air resistance for infinite movement - balls will never slow down from friction!
+          
+          // 🚀 INFINITE MOVEMENT GUARANTEE - Ensure balls never stop completely!
+          // If velocity gets too low, give it a gentle boost to keep movement alive
+          const minVelocity = 1.0; // Minimum speed to maintain infinite movement
+          
+          if (Math.abs(newVx) < minVelocity) {
+            newVx = newVx >= 0 ? minVelocity : -minVelocity; // Keep original direction but boost speed
+          }
+          if (Math.abs(newVy) < minVelocity) {
+            newVy = newVy >= 0 ? minVelocity : -minVelocity; // Keep original direction but boost speed
+          }
           
           // Return updated ball with new position and velocity
           return {
