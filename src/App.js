@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
-// Component for our bouncing balls game - we're extracting it to keep code organized!
+// Component for our wedding celebration game - beautiful wedding elements bouncing around in joy!
 function BouncingBallsGame() {
   // useRef gives us access to the container element so we can measure its size
   const containerRef = useRef(null);
   
-  // useState stores the position and velocity of each ball
-  // Each ball has: x, y (position), vx, vy (velocity), size, and color
-  // MUCH FASTER speeds for high-energy, exciting collisions!
-  // Beautiful grayscale palette for modern, minimalist design
+  // useState stores the position and velocity of each wedding element
+  // Each wedding item has: x, y (position), vx, vy (velocity), size, and emoji
+  // MUCH FASTER speeds for high-energy, exciting wedding celebration!
+  // Beautiful wedding elements bouncing around in celebration
   const [balls, setBalls] = useState([
-    { id: 1, x: 100, y: 100, vx: 6.5, vy: 5.2, size: 50, color: 'linear-gradient(135deg, #6b6b6b, #4a4a4a)' }, // Medium ball, very fast
-    { id: 2, x: 200, y: 150, vx: -7.8, vy: 6.1, size: 70, color: 'linear-gradient(135deg, #9e9e9e, #757575)' }, // Large ball, super fast
-    { id: 3, x: 300, y: 200, vx: 5.4, vy: -7.2, size: 35, color: 'linear-gradient(135deg, #e0e0e0, #bdbdbd)' }, // Small ball, lightning fast
-    { id: 4, x: 150, y: 250, vx: -5.8, vy: -4.9, size: 80, color: 'linear-gradient(135deg, #424242, #212121)' }, // Largest ball, fast speed
-    { id: 5, x: 250, y: 100, vx: 8.5, vy: 7.8, size: 40, color: 'linear-gradient(135deg, #c9c9c9, #a8a8a8)' } // Small ball, BLAZING fast!
+    { id: 1, x: 100, y: 100, vx: 6.5, vy: 5.2, size: 50, emoji: '💍', name: 'wedding-ring' }, // Wedding ring, very fast
+    { id: 2, x: 200, y: 150, vx: -7.8, vy: 6.1, size: 70, emoji: '🌸', name: 'cherry-blossoms' }, // Cherry blossoms, super fast
+    { id: 3, x: 300, y: 200, vx: 5.4, vy: -7.2, size: 35, emoji: '🎂', name: 'wedding-cake' }, // Wedding cake, lightning fast
+    { id: 4, x: 150, y: 250, vx: -5.8, vy: -4.9, size: 80, emoji: '👰‍♂️', name: 'dove' }, // Dove, largest element, fast speed
+    { id: 5, x: 250, y: 100, vx: 8.5, vy: 7.8, size: 40, emoji: '💐', name: 'bouquet' } // Bouquet, small element, BLAZING fast!
   ]);
 
   // This effect runs our physics simulation
@@ -142,22 +142,28 @@ function BouncingBallsGame() {
     <div className="game-container">
       {/* This is our main container - the "big box" that holds everything */}
       <div className="ball-container" ref={containerRef}>
-        <h1 className="title">⚡ Bouncing Balls</h1>
+        <h1 className="title">💒 Wedding Celebration</h1>
         
-        {/* Render each ball with its current position and individual size */}
+        {/* Render each wedding element with its current position and individual size */}
         {balls.map(ball => (
           <div
             key={ball.id}
-            className="ball"
+            className="wedding-element"
             style={{
               left: `${ball.x}px`, // Position from left edge
               top: `${ball.y}px`,  // Position from top edge
-              width: `${ball.size}px`, // Individual ball width
-              height: `${ball.size}px`, // Individual ball height
-              background: ball.color, // Each ball has its own color
-              transform: 'none' // Override any CSS transforms
+              width: `${ball.size}px`, // Individual element width
+              height: `${ball.size}px`, // Individual element height
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: `${ball.size * 0.6}px`, // Scale emoji size with element size
+              transform: 'none', // Override any CSS transforms
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' // Add shadow for depth
             }}
-          />
+          >
+            {ball.emoji}
+          </div>
         ))}
       </div>
     </div>
@@ -522,7 +528,7 @@ function App() {
           className={`tab-button ${activeTab === 'balls' ? 'active' : ''}`}
           onClick={() => setActiveTab('balls')}
         >
-          ⚡ Bouncing Balls
+          💒 Wedding Celebration
         </button>
         <button
           className={`tab-button ${activeTab === 'pacman' ? 'active' : ''}`}

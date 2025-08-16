@@ -109,6 +109,15 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Drop shadow for depth */
 }
 
+/* Wedding element styling - for our bouncing wedding emojis */
+.wedding-element {
+  position: absolute; /* This lets us position each element anywhere */
+  /* Size is controlled by JavaScript for each individual element */
+  user-select: none; /* Prevent emoji selection */
+  pointer-events: none; /* Don't interfere with interactions */
+  z-index: 5; /* Ensure wedding elements appear above background */
+}
+
 /* Ball styling - now controlled by JavaScript instead of CSS animations */
 /* We removed all the individual ball classes and animations since JavaScript handles movement now */
 
