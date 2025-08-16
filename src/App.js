@@ -195,16 +195,16 @@ function PacManGame() {
   const [gameMap, setGameMap] = useState(maze); // Current state of the maze (walls, dots, etc.)
   const [gameOver, setGameOver] = useState(false); // Track if game is over
   
-  // 👻 CREATURES STATE - Track our 3 enemy creatures
-  // Each creature has x, y position and a color
-  // 🏰 SAFE CORNER POSITIONS - Far from Pac-Man's starting position to prevent instant game over!
+  // 🎭 WEDDING PARTY STATE - Track our 3 wedding-themed enemies
+  // Each wedding character has x, y position and an emoji
+  // 🏰 SAFE CORNER POSITIONS - Far from the bride's starting position to prevent instant game over!
   const [creatures, setCreatures] = useState([
-    { id: 1, x: 1, y: 1, color: 'red' },     // Top-left corner - safe distance from Pac-Man
-    { id: 2, x: 17, y: 1, color: 'blue' },   // Top-right corner - opposite side of maze
-    { id: 3, x: 1, y: 11, color: 'green' }   // Bottom-left corner - maximum distance from center
+    { id: 1, x: 1, y: 1, emoji: '👵', name: 'mother-in-law' },     // Top-left corner - the overbearing mother-in-law
+    { id: 2, x: 17, y: 1, emoji: '💐', name: 'flying-bouquet' },   // Top-right corner - the bouquet everyone's chasing
+    { id: 3, x: 1, y: 11, emoji: '🍰', name: 'escaped-cake' }      // Bottom-left corner - the runaway wedding cake
   ]);
   
-  // 🤖 CREATURE AI - Make creatures move toward Pac-Man automatically
+  // 🤖 WEDDING PARTY AI - Make wedding characters move toward the bride automatically
   useEffect(() => {
     // Only move creatures if game is not over
     if (gameOver) return;
@@ -216,12 +216,12 @@ function PacManGame() {
           let newX = creature.x;
           let newY = creature.y;
           
-          // Simple AI: Move one step closer to Pac-Man
-          if (pacmanPos.x > creature.x) newX += 1; // Move right toward Pac-Man
-          else if (pacmanPos.x < creature.x) newX -= 1; // Move left toward Pac-Man
+          // Simple AI: Move one step closer to the bride
+          if (pacmanPos.x > creature.x) newX += 1; // Move right toward the bride
+          else if (pacmanPos.x < creature.x) newX -= 1; // Move left toward the bride
           
-          if (pacmanPos.y > creature.y) newY += 1; // Move down toward Pac-Man  
-          else if (pacmanPos.y < creature.y) newY -= 1; // Move up toward Pac-Man
+          if (pacmanPos.y > creature.y) newY += 1; // Move down toward the bride  
+          else if (pacmanPos.y < creature.y) newY -= 1; // Move up toward the bride
           
           // Check if new position is valid (not a wall and within bounds)
           if (newY >= 0 && newY < GRID_HEIGHT && 
@@ -230,19 +230,19 @@ function PacManGame() {
             return { ...creature, x: newX, y: newY };
           }
           
-          // If can't move toward Pac-Man (wall blocking), stay in current position
+          // If can't move toward the bride (wall blocking), stay in current position
           return creature;
         });
       });
       
-      // 💥 EXTRA COLLISION CHECK - After creatures move, check if any caught Pac-Man
+      // 💥 EXTRA COLLISION CHECK - After wedding party moves, check if any caught the bride
       setCreatures(prevCreatures => {
         const collision = prevCreatures.some(creature => 
           creature.x === pacmanPos.x && creature.y === pacmanPos.y
         );
         
         if (collision) {
-          // Game Over! A creature caught Pac-Man
+          // Game Over! The wedding party caught the bride
           setGameOver(true);
         }
         
@@ -282,25 +282,25 @@ function PacManGame() {
         // Move Pac-Man to new position
         setPacmanPos({ x: newX, y: newY });
         
-        // 💥 COLLISION DETECTION - Check if Pac-Man touches any creature
+        // 💥 COLLISION DETECTION - Check if the bride touches any wedding party member
         const collision = creatures.some(creature => 
           creature.x === newX && creature.y === newY
         );
         
         if (collision) {
-          // Game Over! Pac-Man got caught by a creature
+          // Game Over! The bride got caught by the wedding party
           setGameOver(true);
-          return; // Stop processing, don't collect dots
+          return; // Stop processing, don't collect wedding favors
         }
         
-        // Check if there's a dot at the new position
-        if (gameMap[newY][newX] === 2) { // 2 = dot
-          // Collect the dot! Update score and remove dot from map
+        // Check if there's a wedding favor at the new position
+        if (gameMap[newY][newX] === 2) { // 2 = wedding favor
+          // Collect the wedding favor! Update score and remove favor from map
           setScore(prevScore => prevScore + 10);
           
-          // Create new map with dot removed (change 2 to 0)
+          // Create new map with wedding favor removed (change 2 to 0)
           const newGameMap = gameMap.map(row => [...row]); // Copy the maze
-          newGameMap[newY][newX] = 0; // Remove the dot (make it empty path)
+          newGameMap[newY][newX] = 0; // Remove the wedding favor (make it empty path)
           setGameMap(newGameMap);
         }
       }
@@ -364,7 +364,7 @@ function PacManGame() {
                 fontWeight: 'bold',
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)'
               }}>
-                🏃‍♂️ You were caught by a creature! 👻
+                💒 The wedding party caught the bride! 🎭
               </p>
               
               <p style={{
@@ -388,11 +388,11 @@ function PacManGame() {
                   setPacmanPos({ x: 9, y: 6 });
                   setScore(0);
                   setGameMap(maze);
-                  // 🏰 Reset creatures to safe corner positions (same as initial state)
+                  // 🏰 Reset wedding party to safe corner positions (same as initial state)
                   setCreatures([
-                    { id: 1, x: 1, y: 1, color: 'red' },     // Top-left corner
-                    { id: 2, x: 17, y: 1, color: 'blue' },   // Top-right corner  
-                    { id: 3, x: 1, y: 11, color: 'green' }   // Bottom-left corner
+                    { id: 1, x: 1, y: 1, emoji: '👵', name: 'mother-in-law' },     // Top-left corner - the overbearing mother-in-law
+                    { id: 2, x: 17, y: 1, emoji: '💐', name: 'flying-bouquet' },   // Top-right corner - the bouquet everyone's chasing
+                    { id: 3, x: 1, y: 11, emoji: '🍰', name: 'escaped-cake' }      // Bottom-left corner - the runaway wedding cake
                   ]);
                 }}
                 style={{
@@ -425,7 +425,7 @@ function PacManGame() {
             </div>
           </div>
         ) : (
-          <div className="game-instructions">Use arrow keys to move! Avoid the creatures!</div>
+          <div className="game-instructions">Help the bride collect wedding favors! Avoid the wedding party chaos!</div>
         )}
         
         {/* The Maze */}
@@ -459,39 +459,48 @@ function PacManGame() {
             ))
           )}
           
-          {/* Pac-Man Character */}
+          {/* 👰 Wedding Bride Character */}
           <div
-            className="pacman"
+            className="bride"
             style={{
               position: 'absolute',
               left: pacmanPos.x * CELL_SIZE + 3, // Small offset for centering
               top: pacmanPos.y * CELL_SIZE + 3,
               width: CELL_SIZE - 6,
               height: CELL_SIZE - 6,
-              transition: 'all 0.15s ease' // Smooth movement animation
+              transition: 'all 0.15s ease', // Smooth movement animation
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '20px'
             }}
-          />
+          >
+            👰
+          </div>
           
-          {/* 👻 CREATURES - Render each creature on the maze */}
+          {/* 🎭 WEDDING PARTY - Render each wedding character on the maze */}
           {creatures.map(creature => (
             <div
               key={creature.id}
-              className="creature"
+              className="wedding-character"
               style={{
                 position: 'absolute',
                 left: creature.x * CELL_SIZE + 2, // Small offset for centering
                 top: creature.y * CELL_SIZE + 2,
                 width: CELL_SIZE - 4,
                 height: CELL_SIZE - 4,
-                backgroundColor: creature.color,
-                borderRadius: '50% 50% 0 0', // Ghost-like shape (rounded top, flat bottom)
-                border: '2px solid rgba(255, 255, 255, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '18px',
                 transition: 'all 0.3s ease', // Smooth movement animation
-                opacity: gameOver ? 0.5 : 1, // Fade creatures when game is over
+                opacity: gameOver ? 0.5 : 1, // Fade characters when game is over
                 // Add some depth with shadow
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'
               }}
-            />
+            >
+              {creature.emoji}
+            </div>
           ))}
         </div>
       </div>
@@ -519,7 +528,7 @@ function App() {
           className={`tab-button ${activeTab === 'pacman' ? 'active' : ''}`}
           onClick={() => setActiveTab('pacman')}
         >
-          🟡 Pac-Man
+          👰 Wedding Chaos
         </button>
       </div>
 
