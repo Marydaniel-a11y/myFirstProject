@@ -8,8 +8,8 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); /* Elegant dark grayscale gradient */
+  font-family: 'Quicksand', sans-serif; /* 🎨 Using our cute Google font! */
+  background: linear-gradient(135deg, #264653 0%, #2A9D8F 100%); /* 🎨 Beautiful teal gradient from your palette! */
   overflow: hidden; /* This prevents scrollbars while balls are moving */
 }
 
@@ -33,9 +33,9 @@ body {
 /* Tab Navigation Styling */
 .tab-navigation {
   display: flex;
-  background: rgba(0, 0, 0, 0.3); /* Dark background for tabs */
+  background: #264653; /* 🎨 Deep teal background from your palette */
   padding: 0;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 3px solid #E9C46A; /* 🎨 Golden yellow accent border */
 }
 
 .tab-button {
@@ -43,23 +43,26 @@ body {
   padding: 15px 20px;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.7); /* Light gray when inactive */
+  color: rgba(255, 255, 255, 0.8); /* 🎨 Slightly brighter inactive text */
+  font-family: 'Fredoka One', cursive; /* 🎨 Cute font for tab buttons */
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease; /* Smooth transitions */
   border-bottom: 3px solid transparent;
 }
 
 .tab-button:hover {
-  background: rgba(255, 255, 255, 0.1); /* Light background on hover */
-  color: rgba(255, 255, 255, 0.9);
+  background: #F4A261; /* 🎨 Warm orange hover from your palette */
+  color: #ffffff;
+  transform: translateY(-2px); /* 🎨 Cute little lift animation */
 }
 
 .tab-button.active {
-  color: #ffffff; /* Bright white when active */
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 3px solid #ffffff; /* White underline for active tab */
+  color: #264653; /* 🎨 Deep teal text on active tab */
+  background: #E9C46A; /* 🎨 Beautiful golden yellow active background */
+  border-bottom: 3px solid #E76F51; /* 🎨 Coral accent border */
+  transform: translateY(-1px); /* 🎨 Slight elevation for active state */
 }
 
 /* Tab Content Area */
@@ -75,11 +78,11 @@ body {
   position: relative; /* This lets our balls move around inside it */
   width: 80%; /* Takes up 80% of screen width */
   height: 80%; /* Takes up 80% of screen height */
-  background: rgba(255, 255, 255, 0.05); /* Very subtle light background for contrast */
-  border: 3px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
-  border-radius: 0px; /* Sharp, modern corners - no rounding */
-  backdrop-filter: blur(10px); /* Makes background blurry behind the box */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); /* Slightly stronger shadow for definition */
+  background: rgba(41, 157, 143, 0.15); /* 🎨 Subtle teal background from your palette */
+  border: 4px solid #E9C46A; /* 🎨 Golden yellow border */
+  border-radius: 20px; /* 🎨 Cute rounded corners */
+  backdrop-filter: blur(15px); /* Makes background blurry behind the box */
+  box-shadow: 0 12px 40px rgba(38, 70, 83, 0.3); /* 🎨 Teal-tinted shadow */
   overflow: hidden; /* Keeps balls inside the box */
 }
 
@@ -89,10 +92,11 @@ body {
   top: 20px; /* 20px from the top */
   left: 50%; /* Start at the middle */
   transform: translateX(-50%); /* Center it perfectly */
-  color: #f0f0f0; /* Light gray text for contrast against dark background */
-  font-size: 2rem;
-  font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Stronger shadow for grayscale */
+  color: #E9C46A; /* 🎨 Beautiful golden yellow from your palette */
+  font-family: 'Fredoka One', cursive; /* 🎨 Super cute font for the title */
+  font-size: 2.2rem;
+  font-weight: 400; /* Fredoka One doesn't need bold */
+  text-shadow: 0 3px 6px rgba(38, 70, 83, 0.4); /* 🎨 Teal-tinted shadow */
   z-index: 10; /* Makes sure title appears above the balls */
 }
 
